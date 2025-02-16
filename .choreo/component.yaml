@@ -1,0 +1,33 @@
+buildConfig:
+  build:
+    docker:
+      context: .
+      dockerfile: Dockerfile
+  env:
+    - name: PORT
+      value: "8080"
+  
+deploymentConfig:
+  replicas: 1
+  containerPort: 8080
+  env:
+    - name: PORT
+      value: "8080"
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "512Mi"
+    requests:
+      cpu: "500m"
+      memory: "256Mi"
+
+containerId: python-service
+projectType: Python
+version: 1.0.0
+metadata:
+  name: python-app
+  description: Python application deployed on Choreo
+  tags:
+    - python
+    - web
+  annotations: {}
