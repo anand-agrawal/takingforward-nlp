@@ -1,0 +1,57 @@
+# Component configuration
+schemaVersion: v1
+metadata:
+  name: nlp-similarity-service
+  description: NLP text similarity comparison service
+  labels:
+    type: python-service
+    purpose: nlp
+
+# Service configuration
+service:
+  baseImage: python:3.9-slim
+  buildCommand: pip install -r requirements.txt
+  startCommand: gunicorn --bind 0.0.0.0:$PORT wsgi:app
+  healthCheck:
+    port: 8080
+    path: /health
+
+# Resource configuration
+resources:
+  cpu: 
+    min: 500m
+    max: 1000m
+  memory:
+    min: 1Gi
+    max: 2Gi
+
+# Environment configuration
+env:
+  - name: PORT
+    value: "8080"
+  - name: PYTHONUNBUFFERED
+    value: "1"
+  - name: MODEL_NAME
+    value: "all-MiniLM-L6-v2"
+
+# Scaling configuration
+scaling:
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+
+# Network configuration
+network:
+  ingress:
+    enabled: true
+    targetPort: 8080
+
+# Monitoring and logging
+monitoring:
+  enabled: true
+  logs:
+    enabled: true

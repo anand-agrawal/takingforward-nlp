@@ -63,6 +63,11 @@ def calculate_similarity(text1, text2):
     return similarity_percentage
 
 @app.route('/compare', methods=['POST'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'model_loaded': model is not None
+    }), 200
 @rate_limit
 def compare_texts():
     try:
