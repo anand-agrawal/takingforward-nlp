@@ -1,3 +1,10 @@
+sourceConfig:
+  source:
+    type: git
+    mode: single
+    directory: "/"
+    ref: refs/heads/main
+    
 buildConfig:
   build:
     docker:
