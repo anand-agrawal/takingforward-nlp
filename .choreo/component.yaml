@@ -6,6 +6,8 @@ buildConfig:
   env:
     - name: PORT
       value: "8080"
+    - name: PYTHONUNBUFFERED
+      value: "1"
   
 deploymentConfig:
   replicas: 1
@@ -13,13 +15,15 @@ deploymentConfig:
   env:
     - name: PORT
       value: "8080"
+    - name: PYTHONUNBUFFERED
+      value: "1"
   resources:
     limits:
       cpu: "1000m"
-      memory: "512Mi"
+      memory: "2Gi"
     requests:
       cpu: "500m"
-      memory: "256Mi"
+      memory: "1Gi"
 
 containerId: python-service
 projectType: Python
@@ -40,3 +44,4 @@ files:
   - wsgi.py
   - passenger_wsgi.py
   - .htaccess
+  - Dockerfile
