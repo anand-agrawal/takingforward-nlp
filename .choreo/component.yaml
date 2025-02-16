@@ -31,3 +31,12 @@ metadata:
     - python
     - web
   annotations: {}
+
+# Required files configuration
+files:
+  - Procfile
+  - requirements.txt
+  - app.py
+  - wsgi.py
+  - passenger_wsgi.py
+  - .htaccess
