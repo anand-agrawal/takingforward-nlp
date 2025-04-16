@@ -64,6 +64,7 @@ def calculate_similarity(text1, text2):
     
     return similarity_percentage
 
+
 @app.route('/compare', methods=['POST'])
 @rate_limit
 def compare_texts():
