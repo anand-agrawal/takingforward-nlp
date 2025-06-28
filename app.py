@@ -9,8 +9,10 @@ import os
 import json
 from difflib import SequenceMatcher
 import nltk
+nltk.data.path.append(r'C:\Users\Anand\AppData\Roaming\nltk_data')
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from textblob import TextBlob
 
 # Download necessary NLTK data
 try:
@@ -62,10 +64,26 @@ def rate_limit(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def correct_spelling(text):
+    try:
+        return str(TextBlob(text).correct())
+    except Exception:
+        return text  # fallback if correction fails
+
+def preprocess_text(text):
+    # Lowercase, strip, and correct spelling
+    text = text.lower().strip()
+    text = correct_spelling(text)
+    return text
+
 def calculate_similarity(text1, text2):
     """
     Calculate semantic similarity between two texts using sentence transformers
     """
+    # Preprocess both texts
+    # text1 = preprocess_text(text1)
+    text2 = preprocess_text(text2)
+    print(f"Comparing:\nText1: {text1}\nText2: {text2}")
     # Generate embeddings
     embedding1 = model.encode([text1])
     embedding2 = model.encode([text2])

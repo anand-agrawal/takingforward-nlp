@@ -6,6 +6,7 @@ import logging
 from functools import wraps
 import time
 import os
+from textblob import TextBlob
 
 
 app = Flask(__name__)
@@ -48,10 +49,27 @@ def rate_limit(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def correct_spelling(text):
+    try:
+        return str(TextBlob(text).correct())
+    except Exception:
+        return text  # fallback if correction fails
+
+def preprocess_text(text):
+    # Lowercase, strip, and correct spelling
+    text = text.lower().strip()
+    text = correct_spelling(text)
+    return text
+
 def calculate_similarity(text1, text2):
     """
     Calculate semantic similarity between two texts using sentence transformers
     """
+    # Preprocess both texts
+    # text1 = preprocess_text(text1)
+    text2 = preprocess_text(text2)
+    print(f"Comparing:\nText2: {text2}")
+
     # Generate embeddings
     embedding1 = model.encode([text1])
     embedding2 = model.encode([text2])
